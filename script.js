@@ -31,21 +31,60 @@ function keyDown(event) {
 
 function move() {
     const position = player.getBoundingClientRect();
+    
+    if(downPressed == true) {
+        let position = player.getBoundingClientRect()
+        let newBottom = position.bottom + 1;
+    
+        let btmL = document.elementFromPoint(position.left, newBottom);
+        let btmR = document.elementFromPoint(position.right, newBottom);
+    
+        if (btmL.classList.contains('solid') == false && btmR.classList.contains('solid') == false) {
+             player.style.top = position.top + 1 + 'px';
+        }
+        
+        playerMouth.classList = 'down';
 
-    if (downPressed == true) {
-        player.style.top = position.top + 1 + 'px';
+        
+    }
+    
+    if(upPressed == true) {
+        let position = player.getBoundingClientRect()
+        let newTop = position.top - 1;
+    
+        let topL = document.elementFromPoint(position.left, newTop);
+        let topR = document.elementFromPoint(position.right, newTop);
+    
+        if (topL.classList.contains('solid') == false && topR.classList.contains('solid') == false) {
+             player.style.top = position.top - 1 + 'px';
+        }
+        
+        playerMouth.classList = 'up';
     }
 
     if (leftPressed == true) {
         player.style.left = position.left - 1 + 'px';
     }
 
-    if (upPressed == true) {
-        player.style.top = position.top - 1 + 'px';
-    }
-
     if (rightPressed == true) {
         player.style.left = position.left + 1 + 'px';
+    }
+
+}
+function pointCheck() {
+    const position = player.getBoundingClientRect();
+    const points = document.querySelectorAll('.point');
+
+    for (let i = 0; i < points.length; i++) {
+        let pos = points[i].getBoundingClientRect();
+        if (
+            position.right > pos.left &&
+            position.left < pos.right &&
+            position.bottom > pos.top &&
+            position.top < pos.bottom
+        ) {
+            points[i].classList.remove('point')
+        }
     }
 }
 
